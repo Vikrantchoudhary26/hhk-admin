@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import axios from '../../helpers/axios';
 // import { AdminAllProducts } from '../../actions/Admin/AdminAction';
 
 const EditGiftcard = () => {
@@ -28,20 +29,21 @@ const EditGiftcard = () => {
 
   const getproductdetails = async () => {
     try {
-      let response = await fetch(`http://localhost:5500/api/products/${params.id}`);
-      if (!response.ok) {
+      const response = await axios.get(`/products/${params.id}`);
+    
+      if (response.status === 200) {
+        const result = response.data;
+        setName(result.name);
+        // setCategory(result.category);
+        setPrice(result.price);
+        // setDiscountPrice(result.discountprice);
+        setQuantity(result.quantity);
+        // setImageDataURL(result.imageFile);
+      } else {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      let result = await response.json();
-      setName(result.name);
-      // setCategory(result.category);
-      setPrice(result.price);
-      // setDiscountPrice(result.discountprice);
-      setQuantity(result.quantity);
-      // setImageDataURL(result.imageFile);
     } catch (error) {
-      console.error('Error fetching product details:', error);
+      console.error('Error fetching product details:', error.message);
     }
   };
 
@@ -68,26 +70,32 @@ const EditGiftcard = () => {
       // formData.append('discountprice', discountprice);
       formData.append('quantity', quantity);
       // formData.append('imageFile', imageFile);
-      let response = await fetch(`http://localhost:5500/api/products/${params.id}`, {
-        method: 'PUT',
-        body: formData,
-      });
-
-      if (response.ok) {
+    
+      const url = `/products/${params.id}`;
+      
+      const config = {
+        method: 'put',
+        url: url,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+    
+      const response = await axios(config);
+    
+      if (response.status === 200) {
+        // Request was successful
         console.log('Product updated successfully');
         // dispatch(AdminAllProducts(0, null, null)); // Dispatch action to fetch all products
-
         navigate('/admin-giftbox'); // Redirect to the admin-products page
+      } else {
+        // Handle other status codes if needed
+        console.error('Error updating product. Status:', response.status);
       }
-      
-
-      // Handle success (maybe redirect or show a success message)
-      console.log('Product updated successfully');
     } catch (error) {
-      console.error('Error updating product:', error);
+      console.error('Error updating product:', error.message);
     }
-
-
     
   };
   return (

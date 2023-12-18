@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import axios from '../../helpers/axios';
 // import { AdminAllProducts } from '../../actions/Admin/AdminAction';
 
 const EditGiftbox = () => {
@@ -28,12 +29,13 @@ const EditGiftbox = () => {
 
   const getproductdetails = async () => {
     try {
-      let response = await fetch(`http://localhost:5500/api/products/${params.id}`);
-      if (!response.ok) {
+      const response = await axios.get(`/products/${params.id}`);
+
+      if (!response.status === 200) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      let result = await response.json();
+      const result = response.data;
       setName(result.name);
       // setCategory(result.category);
       setPrice(result.price);
@@ -68,35 +70,29 @@ const EditGiftbox = () => {
       // formData.append('discountprice', discountprice);
       formData.append('quantity', quantity);
       // formData.append('imageFile', imageFile);
-      let response = await fetch(`http://localhost:5500/api/products/${params.id}`, {
-        method: 'PUT',
-        body: formData,
-      });
 
-      if (response.ok) {
+      const response = await axios.put(`/products/${params.id}`, formData);
+
+      if (response.status === 200) {
         console.log('Product updated successfully');
         // dispatch(AdminAllProducts(0, null, null)); // Dispatch action to fetch all products
 
         navigate('/admin-giftbox'); // Redirect to the admin-products page
       }
-      
-
-      // Handle success (maybe redirect or show a success message)
-      console.log('Product updated successfully');
     } catch (error) {
       console.error('Error updating product:', error);
     }
 
 
-    
+
   };
   return (
-    
+
     <div className="flex items-center justify-center h-full">
-    <AdminSidebar name={'products'} />
-    <div className="w-full max-w-md p-8 bg-white rounded shadow-md overflow-y-auto max-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Edit GiftBox</h1>
-      <form onSubmit={handleUpdateProduct}>
+      <AdminSidebar name={'products'} />
+      <div className="w-full max-w-md p-8 bg-white rounded shadow-md overflow-y-auto max-h-screen">
+        <h1 className="text-2xl font-bold mb-6">Edit GiftBox</h1>
+        <form onSubmit={handleUpdateProduct}>
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-600 ">Name:</label>
             <input
@@ -126,7 +122,7 @@ const EditGiftbox = () => {
               className="w-full px-4 py-2 mt-2 border rounded-lg"
             />
           </div>
-{/* 
+          {/* 
           <div className="mb-4">
             <label className="block text-sm font-semibold text-gray-600">Sale Price:</label>
             <input

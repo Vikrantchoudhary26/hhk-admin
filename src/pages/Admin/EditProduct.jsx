@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AdminAllProducts } from '../../actions/Admin/AdminAction';
-import axios from 'axios';
+import axios from '../../helpers/axios';
 
 const EditProduct = () => {
   const [name, setName] = React.useState('');
@@ -33,25 +33,27 @@ const EditProduct = () => {
   }, []);
 
   const getproductdetails = async () => {
+
     try {
-      let response = await fetch(`http://localhost:5500/api/products/${params.id}`);
-      if (!response.ok) {
+      const response = await axios.get(`/products/${params.id}`);
+    
+      if (response.status === 200) {
+        const result = response.data;
+        console.log(result.product, "lkjfhalsdkhf");
+        setName(result?.product?.name);
+        setDescription(result?.product?.description);
+        setParentCategory(result?.product?.parentcategory);
+        setPrice(result?.product?.price);
+        setDiscountPrice(result?.product?.discountprice);
+        setQuantity(result?.product?.quantity);
+        setImageDataURL(result?.product?.imageFile);
+    
+        dispatch(AdminAllProducts(0, null, null));
+      } else {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      let result = await response.json();
-      console.log(result.product, "lkjfhalsdkhf");
-      setName(result?.product?.name);
-      setDescription(result?.product?.description);
-      setParentCategory(result?.product?.parentcategory);
-      setPrice(result?.product?.price);
-      setDiscountPrice(result?.product?.discountprice);
-      setQuantity(result?.product?.quantity);
-      setImageDataURL(result?.product?.imageFile);
-  
-      dispatch(AdminAllProducts(0, null, null));
-  
     } catch (error) {
-      console.error('Error fetching product details:', error);
+      console.error('Error fetching product details:', error.message);
     }
   };
   
@@ -72,7 +74,7 @@ const EditProduct = () => {
     e.preventDefault();
   
     try {
-      const url = `http://localhost:5500/api/products/${params.id}`;
+      const url = `/products/${params.id}`;
   
       const formData = new FormData();
       formData.append('name', name);

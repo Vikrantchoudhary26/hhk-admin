@@ -66,11 +66,11 @@ const AddProducts = () => {
 
     const handleCheckboxChange = () => {
         // if (name && category && parentcategory && description && summary && price && images) {
-        setIsChecked(!isChecked);
-        errorToast("Temporarily Closed!")
-        // setVariantPage(!variantPage);
+            setIsChecked(!isChecked);
+            errorToast("Temporarily Closed!")
+            // setVariantPage(!variantPage);
         // } else {
-        // errorToast('Fill all Marked Fields');
+            // errorToast('Fill all Marked Fields');
         // }
     }
 
@@ -281,18 +281,18 @@ const AddProducts = () => {
         const files = e.target.files;
         const maxSize = 5 * 1024 * 1024; // 5MB in bytes
         const images = [];
-    
+
         for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          if (file.size <= maxSize) {
-            const link = await URL.createObjectURL(file);
-            images.push(link);
-          } else {
-            alert("size is greater than 5 mb")
-          }
+            const file = files[i];
+            if (file.size <= maxSize) {
+                const link = await URL.createObjectURL(file);
+                images.push(link);
+            } else {
+                alert("size is greater than 5 mb")
+            }
         }
         setBlobImg(images);
-      };
+    };
 
     return (
         <>
@@ -431,7 +431,7 @@ const AddProducts = () => {
                                         </div>}
 
 
-                                                        
+
 
 
 

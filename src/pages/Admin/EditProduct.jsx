@@ -27,7 +27,7 @@ const EditProduct = () => {
 
   const dispatch = useDispatch();
 
-
+  
   useEffect(() => {
     getproductdetails();
   }, []);
@@ -36,7 +36,7 @@ const EditProduct = () => {
 
     try {
       const response = await axios.get(`/products/${params.id}`);
-    
+
       if (response.status === 200) {
         const result = response.data;
         console.log(result.product, "lkjfhalsdkhf");
@@ -47,7 +47,7 @@ const EditProduct = () => {
         setDiscountPrice(result?.product?.discountprice);
         setQuantity(result?.product?.quantity);
         setImageDataURL(result?.product?.imageFile);
-    
+
         dispatch(AdminAllProducts(0, null, null));
       } else {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -56,7 +56,7 @@ const EditProduct = () => {
       console.error('Error fetching product details:', error.message);
     }
   };
-  
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -72,22 +72,22 @@ const EditProduct = () => {
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
-  
+    
     try {
       const url = `/products/${params.id}`;
-  
+      
       const formData = new FormData();
-      formData.append('name', name);
+            formData.append('name', name);
       formData.append('description', description);
       formData.append('price', price);
       formData.append('discountprice', discountprice);
       formData.append('quantity', quantity);
       formData.append('parentCategory', parentCategory);
-  
+
       if (imageFile) {
         formData.append('imageFile', imageFile);
       }
-  
+
       const config = {
         method: 'put',
         url: url,
@@ -97,14 +97,14 @@ const EditProduct = () => {
           'Content-Type': 'multipart/form-data',
         },
       };
-  
+
       const response = await axios(config);
-  
+
       if (response.status === 200) {
         // Request was successful
         const responseData = response.data;
         console.log('Product updated successfully', responseData);
-  
+
         dispatch(AdminAllProducts(0, null, null));
         navigate('/admin-products');
       } else {
@@ -115,7 +115,7 @@ const EditProduct = () => {
       console.error('Error updating product:', error);
     }
   };
-  
+
   return (
 
     <div className="flex items-center justify-center h-full">

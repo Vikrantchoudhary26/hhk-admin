@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Logo from '../../assets/mandala.jpg';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminLogin, adminLoginWithOTP, adminSendEmailVerification, adminsendotp, login, loginWithGoogle, loginWithOTP, sendEmailVerification, sendotp, signup } from '../../actions/User/UserAction';
 import Spinner from '../../components/Spinner/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiEyeOff } from 'react-icons/fi';
-import {api} from '../../helpers/baseUrl';
+import { api } from '../../helpers/baseUrl';
 import { BiMenu, BiX } from 'react-icons/bi';
 import './Login.css';
 
@@ -15,12 +15,12 @@ const AdminLogin = () => {
 
   const authenticate = localStorage.getItem('admin_authenticate');
   useEffect(() => {
-    if(authenticate){
+    if (authenticate) {
       navigate('/');
     }
   }, [authenticate])
 
-  const auth = useSelector(state =>state.admin);
+  const auth = useSelector(state => state.admin);
   const successToast = () => {
     toast('Login Successfull', { position: toast.POSITION.TOP_CENTER })
   }
@@ -39,7 +39,7 @@ const AdminLogin = () => {
   const [verificationCode, setVerificationCode] = useState(null);
   const [emailVerificationCode, setEmailVerificationCode] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  
   const [signInWithMobile, setSignInWithMobile] = useState(true);
   const [signInWithEmail, setSignInWithEmail] = useState(false);
   const [signUp, setSignUp] = useState(false);
@@ -66,13 +66,13 @@ const AdminLogin = () => {
     if (auth?.authenticate) {
       navigate('/');
     }
-  }, [auth?.authenticate,navigate])
+  }, [auth?.authenticate, navigate])
 
   const loginUserWithMobileNumber = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if(phone.length < 10){
+    if (phone.length < 10) {
       errorToast("Invalid Mobile Number");
       setLoading(false);
       return;
@@ -136,8 +136,11 @@ const AdminLogin = () => {
         password
       }
       dispatch(adminLogin(user)).then(() => {
+        console.log("======enter=====");
         successToast();
+        console.log("======enter=====1");
         navigate("/");
+        console.log("======enter=====2");
       }).catch((error) => {
         console.log("Error");
         errorToast(error);
@@ -165,9 +168,9 @@ const AdminLogin = () => {
 
   return (
     <div className='flex flex-col'>
-    <div className='w-full h-16 text-xl items-center flex text-white  pl-5 bg-red-600 font-dmsans'>
-    HasthKala Admin Panel
-    </div>
+      <div className='w-full h-16 text-xl items-center flex text-white  pl-5 bg-red-600 font-dmsans'>
+        HasthKala Admin Panel
+      </div>
       <div className='w-full h-screen flex justify-start items-start mt-[-60px]'>
         <div className='hidden sm:flex w-1/2 h-full flex-col justify-center items-center scale-50 lg:scale-100 '>
           <div className='h-[300px] w-[300px] justify-center items-center ml-60'>
@@ -212,7 +215,7 @@ const AdminLogin = () => {
                   <label className=' flex text-sm font-dmsans' htmlFor="">Mobile Number</label>
                   <div className='relative items-center justify-start'>
                     <p className='absolute text-gray flex h-12 text-[16px] pl-2 items-center'>+91</p>
-                    <input type="text" className='border border-[#1a1a1d52] w-full h-12 mt-1 mb-4  text-gray pl-10 rounded-full flex items-center' maxLength={10} onChange={(e) => { setPhone(e.target.value) }}  />
+                    <input type="text" className='border border-[#1a1a1d52] w-full h-12 mt-1 mb-4  text-gray pl-10 rounded-full flex items-center' maxLength={10} onChange={(e) => { setPhone(e.target.value) }} />
                   </div>
                   <button className='w-full h-11 bg-darkred font-dmsans uppercase text-[#ffffff] mt-6 rounded-full flex items-center justify-center' onClick={loginUserWithMobileNumber} type='submit'>{loading ? <Spinner /> : `Sign In`}</button>
                   <div className='flex text-[13px] font-dmsans mt-3'>Login using <span onClick={toggleEmailSignIn} className='text-[#25baff] cursor-pointer'>Password</span></div>

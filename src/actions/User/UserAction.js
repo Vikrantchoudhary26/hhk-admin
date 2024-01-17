@@ -13,11 +13,13 @@ export const adminLogin = (user) => {
 
     return async (dispatch) => {
         dispatch({ type: userLoginConstants.LOGIN_REQUEST });
+        console.log("=======login====1",);
         const res = await axios.post(`/login`, {
             ...user,
         }).catch((err) => {
-            console.log(err.response)
+            console.log("===test===", err.response)
             const { message } = err.response.data;
+            console.log("===message===", message)
             dispatch({
                 type: userLoginConstants.LOGIN_FAILURE,
                 payload: {
@@ -25,6 +27,7 @@ export const adminLogin = (user) => {
                 },
             });
         })
+        console.log("=======login====", res);
         if (res.status === 200) {
             const { user } = res.data;
             localStorage.setItem('admin_id', user?.user?._id);
@@ -91,7 +94,7 @@ export const adminUpdateAvatar = (Obj) => {
             dispatch({
                 type: updateAdminAvatarConstant.UPDATE_ADMIN_AVATAR_SUCCESS,
                 payload: {
-                    avatar:avatar,
+                    avatar: avatar,
                 },
             });
         }

@@ -154,7 +154,8 @@ export const AdminCreateCategory = (categoryObj) => {
   }
   return async (dispatch) => {
     dispatch({ type: adminCreateCategoryConstants.ADMIN_CREATEPRODUCT_REQUEST });
-    const res = await axios.post(`/admin-create-category`, formData)
+        const res = await axios.post(`/admin-create-category`, formData)
+    console.log("=========admin-create-categor========2", res);
     if (res.status === 200) {
       const { category } = res.data;
       dispatch({
@@ -173,7 +174,7 @@ export const AdminDashboardAction = () => {
     dispatch({ type: adminDashboardConstant.ADMIN_DASHBOARD_REQUEST });
     const res = await axios.get(`/admin-dashboard`)
     if (res.status === 200) {
-      const { totalsale,todaysale,yesterdaysale,thismonthsale} = res.data;
+      const { totalsale, todaysale, yesterdaysale, thismonthsale } = res.data;
       dispatch({
         type: adminDashboardConstant.ADMIN_DASHBOARD_SUCCESS,
         payload: {
@@ -193,7 +194,7 @@ export const AdminRecentOrders = () => {
     dispatch({ type: adminRecentOrderConstants.ADMIN_RECENTORDER_REQUEST });
     const res = await axios.get(`/admin-recent-orders`)
     if (res.status === 200) {
-      const { recentorders,delivered,pending,proccessing} = res.data;
+      const { recentorders, delivered, pending, proccessing } = res.data;
       dispatch({
         type: adminRecentOrderConstants.ADMIN_RECENTORDER_SUCCESS,
         payload: {
@@ -208,15 +209,15 @@ export const AdminRecentOrders = () => {
 
 };
 
-export const changeStatusAction = (sid,status) => {
+export const changeStatusAction = (sid, status) => {
   return async (dispatch) => {
-    dispatch({ type: changeStatusConstant.CHANGE_STATUS_REQUEST});
-    const res = await axios.post('/change-status',{
-        sid,
-        status
+    dispatch({ type: changeStatusConstant.CHANGE_STATUS_REQUEST });
+    const res = await axios.post('/change-status', {
+      sid,
+      status
     })
     if (res.status === 200) {
-      const { message} = res.data;
+      const { message } = res.data;
       dispatch({
         type: changeStatusConstant.CHANGE_STATUS_SUCCESS,
         payload: {
@@ -228,23 +229,23 @@ export const changeStatusAction = (sid,status) => {
 
 };
 
-export const AdminGetUserInfo=(uid)=>{
-  return async (dispatch)=>{
-    dispatch({type:adminGetUserInfoConstants.ADMIN_USER_INFO_REQUEST})
-    try{
-      const res = await axios.post('/get-user',{
+export const AdminGetUserInfo = (uid) => {
+  return async (dispatch) => {
+    dispatch({ type: adminGetUserInfoConstants.ADMIN_USER_INFO_REQUEST })
+    try {
+      const res = await axios.post('/get-user', {
         uid
       });
-      if(res.status === 200){
+      if (res.status === 200) {
         const user = res.data;
         dispatch({
-          type:adminGetUserInfoConstants.ADMIN_USER_INFO_SUCCESS,
-          payload:{
+          type: adminGetUserInfoConstants.ADMIN_USER_INFO_SUCCESS,
+          payload: {
             user
           }
         })
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
@@ -254,7 +255,7 @@ export const AdminGetUserInfo=(uid)=>{
 export const AdminDeleteRecentOrders = (oid) => {
   return async (dispatch) => {
     dispatch({ type: adminDeleteRecentOrderConstants.ADMIN_DELETE_RECENT_ORDER_REQUEST });
-    const res = await axios.post('/delete-recent-order',{
+    const res = await axios.post('/delete-recent-order', {
       oid
     })
     if (res.status === 200) {
@@ -273,7 +274,7 @@ export const AdminDeleteRecentOrders = (oid) => {
 export const AdminDeleteProductOrders = (pid) => {
   return async (dispatch) => {
     dispatch({ type: adminDeleteProductConstants.ADMIN_DELETE_PRODUCT_REQUEST });
-    const res = await axios.post('/delete-product',{
+    const res = await axios.post('/delete-product', {
       pid
     })
     if (res.status === 200) {
@@ -292,7 +293,7 @@ export const AdminDeleteProductOrders = (pid) => {
 export const AdminDeleteCategoryOrders = (cid) => {
   return async (dispatch) => {
     dispatch({ type: adminDeleteCategoryConstants.ADMIN_DELETE_CATEGORY_REQUEST });
-    const res = await axios.post('/delete-category',{
+    const res = await axios.post('/delete-category', {
       cid
     })
     if (res.status === 200) {
@@ -311,7 +312,7 @@ export const AdminDeleteCategoryOrders = (cid) => {
 export const AdminDeleteCustomerOrders = (cid) => {
   return async (dispatch) => {
     dispatch({ type: adminDeleteCustomerConstants.ADMIN_DELETE_CUSTOMER_REQUEST });
-    const res = await axios.post('/delete-customer',{
+    const res = await axios.post('/delete-customer', {
       cid
     })
     if (res.status === 200) {
@@ -327,13 +328,13 @@ export const AdminDeleteCustomerOrders = (cid) => {
 
 };
 
-export const AdminAllCustomers = (skip,keyword) => {
-  if(keyword == null){
+export const AdminAllCustomers = (skip, keyword) => {
+  if (keyword == null) {
     keyword = "null";
   }
   return async (dispatch) => {
     dispatch({ type: adminCustomersConstants.ADMIN_CUSTOMERS_REQUEST });
-    const res = await axios.post(`/admin-all-customers`,{
+    const res = await axios.post(`/admin-all-customers`, {
       skip,
       keyword
     })
@@ -351,12 +352,12 @@ export const AdminAllCustomers = (skip,keyword) => {
 
 };
 
-export const AdminAllOrders = (skip,name,status) => {
-  if(name==null){
-    name="null";
-  }  
-  if(status==null){
-    status="null";
+export const AdminAllOrders = (skip, name, status) => {
+  if (name == null) {
+    name = "null";
+  }
+  if (status == null) {
+    status = "null";
   }
   return async (dispatch) => {
     dispatch({ type: adminAllOrdersConstant.ADMIN_ALLORDERS_REQUEST });
@@ -376,11 +377,11 @@ export const AdminAllOrders = (skip,name,status) => {
 };
 
 
-export const AdminAllProducts = (skip,name,cid) => {
-  if(name == null){
+export const AdminAllProducts = (skip, name, cid) => {
+  if (name == null) {
     name = "null";
   }
-  if(cid == null){
+  if (cid == null) {
     cid = "null";
   }
   return async (dispatch) => {
@@ -402,10 +403,11 @@ export const AdminAllProducts = (skip,name,cid) => {
 
 export const AdminAllCategoryParent = () => {
   return async (dispatch) => {
-    dispatch({ type:adminAllCategoryParentConstant.ADMIN_ALL_CATEGORY_REQUEST });
+    dispatch({ type: adminAllCategoryParentConstant.ADMIN_ALL_CATEGORY_REQUEST });
     const res = await axios.get(`/admin-all-category-parent`)
+    console.log("======Response=====", res);
     if (res.status === 200) {
-      const { category} = res.data;
+      const { category } = res.data;
       dispatch({
         type: adminAllCategoryParentConstant.ADMIN_ALL_CATEGORY_SUCCESS,
         payload: {
@@ -417,13 +419,13 @@ export const AdminAllCategoryParent = () => {
 
 };
 
-export const AdminAllCategory = (skip,name) => {
-  if(name==null){
-    name='null';
+export const AdminAllCategory = (skip, name) => {
+  if (name == null) {
+    name = 'null';
   }
   return async (dispatch) => {
     dispatch({ type: adminAllCategoryConstant.ADMIN_CATEGORY_REQUEST });
-    const res = await axios.post(`/admin-all-category`,{
+    const res = await axios.post(`/admin-all-category`, {
       skip,
       name
     })
@@ -444,11 +446,11 @@ export const AdminAllCategory = (skip,name) => {
 export const deleteCouponAction = (cid) => {
   return async (dispatch) => {
     dispatch({ type: deleteCouponConstant.DELETE_COUPON_REQUEST });
-    const res = await axios.post(`/delete-coupon`,{
+    const res = await axios.post(`/delete-coupon`, {
       cid
     })
     if (res.status === 200) {
-      const { message,coupon} = res.data;
+      const { message, coupon } = res.data;
       dispatch({
         type: deleteCouponConstant.DELETE_COUPON_SUCCESS,
         payload: {
@@ -461,14 +463,14 @@ export const deleteCouponAction = (cid) => {
 
 
 export const createCouponAction = (coupon) => {
-  console.log(coupon,'cop')
+  console.log(coupon, 'cop')
   return async (dispatch) => {
     dispatch({ type: createCouponConstant.CREATE_COUPON_REQUEST });
-    const res = await axios.post(`/create-coupon`,{
+    const res = await axios.post(`/create-coupon`, {
       ...coupon
     })
     if (res.status === 200) {
-      const { coupon} = res.data;
+      const { coupon } = res.data;
       dispatch({
         type: createCouponConstant.CREATE_COUPON_SUCCESS,
         payload: {
@@ -482,11 +484,11 @@ export const createCouponAction = (coupon) => {
 export const getCouponAction = (skip) => {
   return async (dispatch) => {
     dispatch({ type: getCouponConstant.GET_COUPON_REQUEST });
-    const res = await axios.post('/get-coupon',{
+    const res = await axios.post('/get-coupon', {
       skip
     })
     if (res.status === 200) {
-      const { coupon,totalcoupons} = res.data;
+      const { coupon, totalcoupons } = res.data;
       dispatch({
         type: getCouponConstant.GET_COUPON_SUCCESS,
         payload: {
@@ -502,14 +504,14 @@ export const getCouponAction = (skip) => {
 
 export const deleteAttributeAction = (aid) => {
   return async (dispatch) => {
-    dispatch({ type: deleteAttributeConstant.DELETE_ATTRIBUTE_REQUEST});
-    const res = await axios.post(`/delete-attribute`,{
+    dispatch({ type: deleteAttributeConstant.DELETE_ATTRIBUTE_REQUEST });
+    const res = await axios.post(`/delete-attribute`, {
       aid
     })
     if (res.status === 200) {
-      const { message,attribute} = res.data;
+      const { message, attribute } = res.data;
       dispatch({
-        type:deleteAttributeConstant.DELETE_ATTRIBUTE_SUCCESS ,
+        type: deleteAttributeConstant.DELETE_ATTRIBUTE_SUCCESS,
         payload: {
           attribute,
           message
@@ -522,12 +524,12 @@ export const deleteAttributeAction = (aid) => {
 
 export const createAttributeAction = (attribute) => {
   return async (dispatch) => {
-    dispatch({ type: createAttributeConstant.CREATE_ATTRIBUTE_REQUEST});
-    const res = await axios.post(`/create-attribute`,{
+    dispatch({ type: createAttributeConstant.CREATE_ATTRIBUTE_REQUEST });
+    const res = await axios.post(`/create-attribute`, {
       ...attribute
     })
     if (res.status === 200) {
-      const { attribute} = res.data;
+      const { attribute } = res.data;
       dispatch({
         type: createAttributeConstant.CREATE_ATTRIBUTE_SUCCESS,
         payload: {
@@ -540,12 +542,12 @@ export const createAttributeAction = (attribute) => {
 
 export const getAttributeAction = (skip) => {
   return async (dispatch) => {
-    dispatch({ type: getAttributeConstant.GET_ATTRIBUTE_REQUEST});
-    const res = await axios.post('/get-attribute',{
+    dispatch({ type: getAttributeConstant.GET_ATTRIBUTE_REQUEST });
+    const res = await axios.post('/get-attribute', {
       skip
     })
     if (res.status === 200) {
-      const { attribute,totalattributes} = res.data;
+      const { attribute, totalattributes } = res.data;
       dispatch({
         type: getAttributeConstant.GET_ATTRIBUTE_SUCCESS,
         payload: {
@@ -561,14 +563,14 @@ export const getAttributeAction = (skip) => {
 
 export const deleteGiftBoxAction = (gid) => {
   return async (dispatch) => {
-    dispatch({ type: deleteGiftBoxConstant.DELETE_GIFTBOX_REQUEST});
-    const res = await axios.post(`/admin-delete-giftbox`,{
+    dispatch({ type: deleteGiftBoxConstant.DELETE_GIFTBOX_REQUEST });
+    const res = await axios.post(`/admin-delete-giftbox`, {
       gid
     })
     if (res.status === 200) {
-      const { message,giftbox} = res.data;
+      const { message, giftbox } = res.data;
       dispatch({
-        type:deleteGiftBoxConstant.DELETE_GIFTBOX_SUCCESS,
+        type: deleteGiftBoxConstant.DELETE_GIFTBOX_SUCCESS,
         payload: {
           giftbox,
           message
@@ -590,10 +592,10 @@ export const createGiftBoxAction = (giftboxObj) => {
     }
   }
   return async (dispatch) => {
-    dispatch({ type: createGiftBoxConstant.CREATE_GIFTBOX_REQUEST});
-    const res = await axios.post(`/admin-create-giftbox`,formData);
+    dispatch({ type: createGiftBoxConstant.CREATE_GIFTBOX_REQUEST });
+    const res = await axios.post(`/admin-create-giftbox`, formData);
     if (res.status === 200) {
-      const {giftbox} = res.data;
+      const { giftbox } = res.data;
       dispatch({
         type: createGiftBoxConstant.CREATE_GIFTBOX_SUCCESS,
         payload: {
@@ -606,14 +608,14 @@ export const createGiftBoxAction = (giftboxObj) => {
 
 export const getGiftBoxAction = (skip) => {
   return async (dispatch) => {
-    dispatch({ type: getGiftBoxConstant.GET_GIFTBOX_REQUEST});
-    const res = await axios.post('/admin-get-giftbox',{
+    dispatch({ type: getGiftBoxConstant.GET_GIFTBOX_REQUEST });
+    const res = await axios.post('/admin-get-giftbox', {
       skip
     })
     if (res.status === 200) {
-      const { giftboxes,totalgiftboxes} = res.data;
+      const { giftboxes, totalgiftboxes } = res.data;
       dispatch({
-        type:getGiftBoxConstant.GET_GIFTBOX_SUCCESS ,
+        type: getGiftBoxConstant.GET_GIFTBOX_SUCCESS,
         payload: {
           giftboxes,
           totalgiftboxes
@@ -629,14 +631,14 @@ export const getGiftBoxAction = (skip) => {
 
 export const deleteGiftCardAction = (gid) => {
   return async (dispatch) => {
-    dispatch({ type: deleteGiftCardConstant.DELETE_GIFTCARDS_REQUEST});
-    const res = await axios.post(`/admin-delete-giftcard`,{
+    dispatch({ type: deleteGiftCardConstant.DELETE_GIFTCARDS_REQUEST });
+    const res = await axios.post(`/admin-delete-giftcard`, {
       gid
     })
     if (res.status === 200) {
-      const { message,giftcard} = res.data;
+      const { message, giftcard } = res.data;
       dispatch({
-        type:deleteGiftCardConstant.DELETE_GIFTCARDS_SUCCESS,
+        type: deleteGiftCardConstant.DELETE_GIFTCARDS_SUCCESS,
         payload: {
           giftcard,
           message
@@ -651,7 +653,7 @@ export const createGiftCardAction = (giftcardObj) => {
   const formData = new FormData();
   // console.log("------------------------------------------------------------------------------>>>>>>>>>>>>>>>>>>>>>>>")
   console.log(giftcardObj.images)
-  if(giftcardObj.images){
+  if (giftcardObj.images) {
     for (const image of giftcardObj.images) {
       formData.append("images", image);
     }
@@ -662,10 +664,10 @@ export const createGiftCardAction = (giftcardObj) => {
     }
   }
   return async (dispatch) => {
-    dispatch({ type: createGiftCardConstant.CREATE_GIFTCARDS_REQUEST});
-    const res = await axios.post(`/admin-create-giftcard`,formData);
+    dispatch({ type: createGiftCardConstant.CREATE_GIFTCARDS_REQUEST });
+    const res = await axios.post(`/admin-create-giftcard`, formData);
     if (res.status === 200) {
-      const {giftcard} = res.data;
+      const { giftcard } = res.data;
       dispatch({
         type: createGiftCardConstant.CREATE_GIFTCARDS_SUCCESS,
         payload: {
@@ -680,14 +682,14 @@ export const createGiftCardAction = (giftcardObj) => {
 
 export const getGiftCardAction = (skip) => {
   return async (dispatch) => {
-    dispatch({ type: getGiftCardConstant.GET_GIFTCARDS_REQUEST});
-    const res = await axios.post('/admin-get-giftcard',{
+    dispatch({ type: getGiftCardConstant.GET_GIFTCARDS_REQUEST });
+    const res = await axios.post('/admin-get-giftcard', {
       skip
     })
     if (res.status === 200) {
-      const { giftcards,totalgiftcards} = res.data;
+      const { giftcards, totalgiftcards } = res.data;
       dispatch({
-        type:getGiftCardConstant.GET_GIFTCARDS_SUCCESS,
+        type: getGiftCardConstant.GET_GIFTCARDS_SUCCESS,
         payload: {
           giftcards,
           totalgiftcards
@@ -699,12 +701,12 @@ export const getGiftCardAction = (skip) => {
 
 export const getNotifications = () => {
   return async (dispatch) => {
-    dispatch({ type: getNotificationsConstant.GET_NOTIFICATION_REQUEST});
+    dispatch({ type: getNotificationsConstant.GET_NOTIFICATION_REQUEST });
     const res = await axios.get('/admin-notifications')
     if (res.status === 200) {
-      const { notifications,totalnotifications} = res.data;
+      const { notifications, totalnotifications } = res.data;
       dispatch({
-        type:getNotificationsConstant.GET_NOTIFICATION_SUCCESS,
+        type: getNotificationsConstant.GET_NOTIFICATION_SUCCESS,
         payload: {
           notifications,
           totalnotifications
@@ -716,14 +718,14 @@ export const getNotifications = () => {
 
 export const deleteNotifications = (nid) => {
   return async (dispatch) => {
-    dispatch({ type: deleteNotificationsConstant.DELETE_NOTIFICATION_REQUEST});
-    const res = await axios.post('/admin-delete-notifications',{
+    dispatch({ type: deleteNotificationsConstant.DELETE_NOTIFICATION_REQUEST });
+    const res = await axios.post('/admin-delete-notifications', {
       nid
     })
     if (res.status === 200) {
-      const { message} = res.data;
+      const { message } = res.data;
       dispatch({
-        type:deleteNotificationsConstant.DELETE_NOTIFICATION_SUCCESS,
+        type: deleteNotificationsConstant.DELETE_NOTIFICATION_SUCCESS,
         payload: {
           message
         },

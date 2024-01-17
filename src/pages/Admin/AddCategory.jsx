@@ -8,52 +8,53 @@ import { AdminAllCategoryParent, AdminCreateCategory } from '../../actions/Admin
 
 const AddCategory = () => {
 
-    const [hamburger,setHamburger] = useState(true);
-    const [images,setImages] = useState(null);
-    const [name,setName] = useState(null);
-    const [parentid,setParentId] = useState(null);
-    const [categories,setCategories] = useState(null);
+    const [hamburger, setHamburger] = useState(true);
+    const [images, setImages] = useState(null);
+    const [name, setName] = useState(null);
+    const [parentid, setParentId] = useState(null);
+    const [categories, setCategories] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const auth = useSelector(state => state.admin);
     const allcategory = useSelector(state => state.admin.allcategory);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(AdminAllCategoryParent());
-    },[AdminAllCategoryParent,dispatch])
+    }, [AdminAllCategoryParent, dispatch])
 
-    useEffect(()=>{
-        if(allcategory){
+    useEffect(() => {
+        if (allcategory) {
             setCategories(allcategory);
         }
-    },[allcategory])
-    
+    }, [allcategory])
+
     const authenticate = localStorage.getItem('admin_authenticate');
     useEffect(() => {
-      if(!authenticate){
-        navigate('/admin-login');
-      }
-    }, [authenticate])
-  
-
-    const handleAddCategory=(e)=>{
-        e.preventDefault();
-        const categoryObj ={
-          name,
-          images,
-          parentid
+        if (!authenticate) {
+            navigate('/admin-login');
         }
-        dispatch(AdminCreateCategory(categoryObj)).then(()=>{
+    }, [authenticate])
+
+
+    const handleAddCategory = (e) => {
+        e.preventDefault();
+        const categoryObj = {
+            name,
+            images,
+            parentid
+        }
+        console.log("=========categoryObj", categoryObj);
+        dispatch(AdminCreateCategory(categoryObj)).then(() => {
             navigate('/admin-categories');
         })
     }
 
-  return (
-    <>
+    return (
+        <>
             <div className='flex w-full h-screen'>
-            {hamburger &&
-                <AdminSidebar name={'products'} />
-            }
+                {hamburger &&
+                    <AdminSidebar name={'products'} />
+                }
                 <div className='flex flex-col w-full h-screen'>
                     <AdminTopbar />
                     <div className='w-full h-full pl-10 pt-5 pr-5'>
@@ -74,7 +75,7 @@ const AddCategory = () => {
                                                     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                                     <p class="text-xs text-gray-500 dark:text-gray-400">Only 1 Image is Accepted</p>
                                                 </div>
-                                                <input id="dropzone-file" type="file"  onChange={(e)=>{setImages(e.target.files)}} multiple={true} maxLength={5} class="hidden" />
+                                                <input id="dropzone-file" type="file" onChange={(e) => { setImages(e.target.files) }} multiple={true} maxLength={5} class="hidden" />
                                             </label>
                                         </div>
 
@@ -83,21 +84,21 @@ const AddCategory = () => {
                                 <div className='pr-[500px] mb-20'>
                                     <div className='items-center justify-between flex mt-10 text-black font-dmsans'>
                                         <p className='mr-10'>Name</p>
-                                        <input onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Product name' className='rounded-lg  text-sm pl-3 bg-[#1a1a1d0d] border-[#1a1a1d15] h-12 w-[500px]' required/>
+                                        <input onChange={(e) => { setName(e.target.value) }} type="text" placeholder='Product name' className='rounded-lg  text-sm pl-3 bg-[#1a1a1d0d] border-[#1a1a1d15] h-12 w-[500px]' required />
                                     </div>
                                     <div className='items-center justify-between flex mt-10 text-black font-dmsans'>
                                         <p className='mr-10'>Parent</p>
-                                        <select id="" className='rounded-lg  text-sm pl-3 bg-[#1a1a1d0d] border-[#1a1a1d15] h-12 w-[500px]' onChange={(e)=>{setParentId(e.target.value)}}>
+                                        <select id="" className='rounded-lg  text-sm pl-3 bg-[#1a1a1d0d] border-[#1a1a1d15] h-12 w-[500px]' onChange={(e) => { setParentId(e.target.value) }}>
                                             <option value={null} hidden defaultChecked={true}>Select Parent</option>
                                             {
-                                                categories?.map((c,key)=>(
+                                                categories?.map((c, key) => (
                                                     <option value={c?._id}>{c?.name}</option>
                                                 ))
                                             }
                                         </select>
                                     </div>
                                     <div className='items-center flex mt-10 text-black font-dmsans'>
-                                        <button className='w-[100px] h-10 flex justify-center items-center border rounded-md shadow text-sm font-dmsans text-darkred' onClick={()=>{navigate('/admin-categories')}}>Cancel</button>
+                                        <button className='w-[100px] h-10 flex justify-center items-center border rounded-md shadow text-sm font-dmsans text-darkred' onClick={() => { navigate('/admin-categories') }}>Cancel</button>
                                         <button className='w-[100px] h-10 flex justify-center items-center border rounded-md shadow text-sm font-dmsans bg-darkred text-white ml-5' type='Submit'>Submit</button>
                                     </div>
                                     <br /><br />
@@ -108,7 +109,7 @@ const AddCategory = () => {
                 </div>
             </div>
         </>
-  )
+    )
 }
 
 export default AddCategory
